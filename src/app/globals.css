@@ -3,17 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 7, 7, 7;
+  --background-end-rgb: 0, 0, 0;
 }
 
 body {
@@ -24,10 +16,55 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+
+    @apply scroll-smooth
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+main {
+  @apply w-full h-full flex flex-col
+}
+
+header {
+  @apply px-2 py-4 rounded-md
+}
+
+.nav-menu-link {
+  @apply text-gray-100 px-4 py-3 flex items-center w-full rounded-md space-x-2 text-lg hover:bg-primary focus:outline-none focus:ring focus:ring-white/75
+}
+
+/* form */
+.add-form-label {
+  @apply flex flex-col sm:flex-row items-center gap-7 text-center lg:text-start w-full py-4 px-6
+}
+
+.add-form-label span * {
+  @apply font-semibold flex w-full text-center flex-col gap-2 items-center justify-center 
+}
+
+.add-form-label input {
+  @apply rounded-md bg-transparent px-2 py-1 w-full sm:w-max text-gray-300/95 outline outline-white/25 focus:ring ring-primary ring-offset-2 ring-offset-white/25 placeholder:text-gray-500 transition-all duration-200
+}
+
+
+/* animations */
+@keyframes spin {
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+/* utility classes */
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .animate-slow-spin {
+    animation: spin 5s linear infinite;
+  }  
 }
