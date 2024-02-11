@@ -3,6 +3,11 @@ import Button from "./Button";
 import { Action, EmbedFormInput, EmbedOptions, FormInput } from "@/util/types";
 import { IoMdAddCircle } from "react-icons/io";
 
+
+/*
+    default form
+*/
+
 type FormProps = {
     buttonTxt: string;
     inputs: FormInput[];
@@ -51,6 +56,10 @@ const Form = ({ buttonTxt, inputs, actions, submitInfo, ...props }: FormProps) =
         </Button>
     </form>;
 }
+
+/*
+    embed form
+*/
 
 interface EmbedProps extends FormProps {
     inputs: EmbedFormInput<EmbedOptions>[];
@@ -118,7 +127,9 @@ export const EmbedForm = ({ buttonTxt, inputs, actions, submitInfo, ...props }: 
             ))}
 
         </div>
-
+        <Button type="submit">
+            {buttonTxt}
+        </Button>
     </form>
 }
 

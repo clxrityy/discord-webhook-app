@@ -3,7 +3,7 @@
 import Form from "@/components/ui/Form";
 import { webhookFormInputs } from "@/config/constants";
 import GetUser from "@/hooks/GetUser";
-import { buildWebhook } from "@/util/build";
+import { buildWebhook } from "@/util/webhook";
 import { Action, UserData, WebhookData } from "@/util/types";
 import { uuid } from "@/util/uuid";
 import Link from "next/link";

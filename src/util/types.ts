@@ -1,6 +1,7 @@
 import { DocumentData } from "firebase/firestore";
 import { IconType } from "react-icons";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { EmbedBuilder, WebhookClient } from "discord.js";
 
 /* 
 
@@ -38,8 +39,8 @@ export interface EmbedFormInput<T extends EmbedOptions> extends FormInput {
 
 // Discord embed
 
-type Field = {
-    title: string;
+export interface Field {
+    name: string;
     value: string;
     inline?: boolean;
 }
@@ -51,7 +52,7 @@ export type EmbedOptions = {
     color?: string;
     author?: {
         icon?: string;
-        name: string;
+        name?: string;
         url?: string;
     },
     fields?: Field[];
@@ -61,8 +62,19 @@ export type EmbedOptions = {
         text?: string;
         iconURL?: string;
     };
-    timestamp?: boolean;
+    timestamp?: Date;
 }
+
+export type WebhookSendEmbedOptions = {
+    embeds: [EmbedBuilder],
+    webhook: WebhookClient,
+    options?: {
+        username?: string;
+        avatarURL?: string;
+    }
+}
+
+
 
 // export type CommandBuild = {
 //     name: string;
