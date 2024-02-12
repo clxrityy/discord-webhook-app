@@ -7,8 +7,7 @@ import { UserData, WebhookData } from "./types";
 const webhook = (data: WebhookData): WebhookClient => {
     
     const client = new WebhookClient({
-        id: data.id,
-        token: data.token
+        url: `https://discord.com/api/webhooks/${data.id}/${data.token}`
     });
 
     return client;
@@ -21,7 +20,7 @@ export const buildWebhook = async (user: UserData, webhookData: WebhookData) => 
     const db = getFirestore(app);
     let webhook: WebhookData | undefined;
 
-    webhook = GetWebhook(user.id);
+    webhook = await GetWebhook(user.id);
 
 
     if (!webhook) {

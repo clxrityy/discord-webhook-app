@@ -75,9 +75,9 @@ export const EmbedForm = ({ buttonTxt, inputs, actions, submitInfo, ...props }: 
             e.preventDefault();
             submitInfo();
         }}
-        className="w-full flex items-center justify-center py-5 mx-auto"
+        className="w-full flex items-center justify-center py-5 mx-auto flex-col"
     >
-        <div className="grid grid-rows-10 lg:grid-rows-5 grid-flow-col items-center py-4 w-full text-center justify-center gap-2 divide-y divide-white/30 lg:divide-none">
+        <div className="grid grid-rows-10 xl:grid-rows-5 grid-flow-col items-center py-4 lg:py-2 w-full text-center justify-center gap-2 divide-y divide-white/30 lg:divide-none">
 
             {inputs && inputs.map((info, idx) => (
                 <div key={idx} className="flex flex-row items-center gap-2 w-full add-form-label">

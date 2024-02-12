@@ -66,8 +66,8 @@ export type EmbedOptions = {
 }
 
 export type WebhookSendEmbedOptions = {
-    embeds: [EmbedBuilder],
-    webhook: WebhookClient,
+    embedOptions: EmbedOptions,
+    webhookData: WebhookData,
     options?: {
         username?: string;
         avatarURL?: string;

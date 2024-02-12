@@ -1,19 +1,11 @@
 "use client";
-
-
-/*
-    big component warning...
-    i'll refactor to be better i swear
-*/
 import GetUser from "@/hooks/GetUser";
 import GetWebhook from "@/hooks/GetWebhook";
-import { Action, EmbedOptions, WebhookData } from "@/util/types";
+import { Action, EmbedOptions, WebhookData, WebhookSendEmbedOptions } from "@/util/types";
 import { EmbedForm } from "@/components/ui/Form";
 import { embedFormInputs } from "@/config/constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { embed } from "@/util/embed";
-import webhook from "@/util/webhook";
 import toast from "react-hot-toast";
 
 export default function Page() {
@@ -40,11 +32,17 @@ export default function Page() {
         END EMBED VALUES
     */
     const [webhookData, setWebhookData] = useState<WebhookData>();
+
     const user = GetUser();
 
-    if (user) {
-        setWebhookData(GetWebhook(user.id));
-    }
+    useEffect(() => {
+
+        if (user) {
+            GetWebhook(user.id).then((res) => setWebhookData(res));
+        }
+
+    }, [user])
+
     /* 
         EMBED ACTIONS
     */
@@ -112,13 +110,14 @@ export default function Page() {
             name: "Icon URL",
             dispatch: setFooterIconUrl
         }
-        
+
     ]
     /*
         END ENBED ACTIONS
     */
 
-    const sendEmbed = async () => {
+    const handleSubmit = async () => {
+
         if (title || description || authorName || authorIcon || authorUrl || url || color || image || thumbnail || fieldTitles || fieldValues || fieldInlines || timestamp) {
             const embedOptions: EmbedOptions = {
                 title: title,
@@ -139,26 +138,35 @@ export default function Page() {
                 timestamp: timestamp,
             }
 
-            if (webhookData) {
-                await axios.post(`/api/webhook/embed`, {
-                    webhook: webhook(webhookData),
-                    embed: embed(embedOptions),
-                }).
-                    then((res) => console.log(res))
-                    .catch((err) => console.log(err))
-                    .finally(() => toast.success("Embed sent!"))
-            } else {
-                toast.error("You must fill out at least one field!");
+            const data: WebhookSendEmbedOptions = {
+                webhookData: webhookData!,
+                embedOptions: embedOptions  
             }
+
+            try {
+                await axios.post(`/api/webhook/embed`, data
+                )
+                    .then((res) => console.log(res))
+                    .catch((err) => console.log(err))
+                    .finally(() => {
+                        toast.success("Embed sent!");
+                    })
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            toast.error("You must fill out at least one option!");
         }
     }
 
     return (
-        <div className="w-full h-full">
-            <div>
-                
+        <div className="w-3/4 h-full">
+            <div className="w-full flex items-center justify-center py-4">
+                <h1 className="text-center text-2xl">
+                    Send an embed
+                </h1>
             </div>
-            <EmbedForm inputs={embedFormInputs} actions={actions} buttonTxt="Send" submitInfo={async () => sendEmbed()} />
+            <EmbedForm inputs={embedFormInputs} actions={actions} buttonTxt="Send" submitInfo={async () => await handleSubmit()} />
         </div>
     );
 }
