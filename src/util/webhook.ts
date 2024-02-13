@@ -1,7 +1,7 @@
 import { WebhookClient } from "discord.js";
 import GetWebhook from "@/hooks/GetWebhook";
 import app from "@/lib/firebase";
-import { doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { UserData, WebhookData } from "./types";
 
 const webhook = (data: WebhookData): WebhookClient => {
@@ -49,6 +49,27 @@ export const buildWebhook = async (user: UserData, webhookData: WebhookData) => 
                 token: webhookData.token,
                 uuid: webhookData.uuid,
             } as WebhookData);
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export const deleteWebook = async (userId: string) => {
+    const db = getFirestore(app);
+
+    let webhook: WebhookData | undefined;
+
+    webhook = await GetWebhook(userId);
+
+    if (!webhook) {
+        return;
+    } else {
+        try {
+            const docRef = doc(db, "webhooks", userId);
+
+            await deleteDoc(docRef);
 
         } catch (err) {
             console.log(err);

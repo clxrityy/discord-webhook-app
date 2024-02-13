@@ -9,14 +9,14 @@ import { IoMdAddCircle } from "react-icons/io";
 */
 
 type FormProps = {
-    buttonTxt: string;
+    buttontxt: string;
     inputs: FormInput[];
     actions: Action[];
     submitInfo: () => Promise<void>;
 } & ComponentProps<"form">;
 
 
-const Form = ({ buttonTxt, inputs, actions, submitInfo, ...props }: FormProps) => {
+const Form = ({ buttontxt, inputs, actions, submitInfo, ...props }: FormProps) => {
 
     return <form
         {...props}
@@ -52,7 +52,7 @@ const Form = ({ buttonTxt, inputs, actions, submitInfo, ...props }: FormProps) =
             ))}
         </div>
         <Button type="submit">
-            {buttonTxt}
+            {buttontxt}
         </Button>
     </form>;
 }
@@ -61,11 +61,11 @@ const Form = ({ buttonTxt, inputs, actions, submitInfo, ...props }: FormProps) =
     embed form
 */
 
-interface EmbedProps extends FormProps {
+export interface EmbedProps extends FormProps {
     inputs: EmbedFormInput<EmbedOptions>[];
 }
 
-export const EmbedForm = ({ buttonTxt, inputs, actions, submitInfo, ...props }: EmbedProps) => {
+export const EmbedForm = ({ buttontxt, inputs, actions, submitInfo, ...props }: EmbedProps) => {
 
     const [fieldsCount, setFieldsCount] = useState<number>(0);
 
@@ -80,13 +80,13 @@ export const EmbedForm = ({ buttonTxt, inputs, actions, submitInfo, ...props }: 
         <div className="grid grid-rows-10 xl:grid-rows-5 grid-flow-col items-center py-4 lg:py-2 w-full text-center justify-center gap-2 divide-y divide-white/30 lg:divide-none">
 
             {inputs && inputs.map((info, idx) => (
-                <div key={idx} className="flex flex-row items-center gap-2 w-full add-form-label">
+                <div key={idx} className="flex flex-row items-center gap-2 w-full add-form-label mx-auto">
                     <div className="flex mx-auto flex-row-reverse items-center gap-2">
                         <label className="mx-auto font-semibold flex flex-row items-center gap-3">
                             {info.label}
                         </label>
                         {info.label === "Fields" && (
-                            <button onClick={() => setFieldsCount(fieldsCount + 1)}>
+                            <button disabled className="disabled:cursor-not-allowed" type="button" onClick={() => setFieldsCount(fieldsCount + 1)}>
                                 <IoMdAddCircle
                                     className=""
                                     size={20}
@@ -94,11 +94,20 @@ export const EmbedForm = ({ buttonTxt, inputs, actions, submitInfo, ...props }: 
                             </button>
                         )}
                     </div>
-                    {!info.params &&
-                        <input className="w-full" type={info.type} onChange={(e) => {
+                    {!info.params && info.label !== "Description" &&
+                        <input placeholder={info.placeholder && info.placeholder} className={`w-full`} type={info.type}  onChange={(e) => {
                             actions.forEach((action) => {
                                 if (action.name === info.label) {
                                     info.onChange && info.onChange(e, action.dispatch)
+                                }
+                            })
+                        }} />
+                    }
+                    {
+                        info.label === "Description" && <textarea className="w-full bg-transparent outline outline-white/30 rounded-md h-32 px-2 py-3 text-xs focus:ring focus:ring-primary" onChange={(e) => {
+                            actions.forEach((action) => {
+                                if (action.name === info.label) {
+                                    info.onChange && info.onChange(e, action.dispatch);
                                 }
                             })
                         }} />
@@ -111,7 +120,10 @@ export const EmbedForm = ({ buttonTxt, inputs, actions, submitInfo, ...props }: 
                                         <label className="w-full text-gray-300 text-sm">
                                             {param.label}
                                         </label>
-                                        <input type={param.type} className="w-full" onChange={(e) => {
+                                        <input type={param.type} className="w-full disabled:cursor-not-allowed"
+                                            placeholder={param.placeholder && param.placeholder}
+                                            disabled={param.label === "Author URL" || param.label === "Icon" || param.label === "Name" || param.label === "Inline" || param.label === "Field value" || param.label === "Field title" || param.label === "Icon URL" || param.label === "Text"}
+                                            onChange={(e) => {
                                             actions.forEach((action) => {
                                                 if (action.name === param.label) {
                                                     param.onChange(e, action.dispatch);
@@ -128,7 +140,7 @@ export const EmbedForm = ({ buttonTxt, inputs, actions, submitInfo, ...props }: 
 
         </div>
         <Button type="submit">
-            {buttonTxt}
+            {buttontxt}
         </Button>
     </form>
 }

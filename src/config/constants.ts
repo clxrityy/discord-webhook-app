@@ -120,7 +120,6 @@ export const embedFormInputs: EmbedFormInput<EmbedOptions>[] = [
             {
                 label: "Name",
                 type: "text",
-                placeholder: "MJ Anglin",
                 onChange(e, action) {
                     e.preventDefault();
                     if (e.target.value.length > 0) {
@@ -179,6 +178,7 @@ export const embedFormInputs: EmbedFormInput<EmbedOptions>[] = [
     {
         label: "Color",
         type: "text",
+        placeholder: "#ffffff",
         onChange(e, action) {
             e.preventDefault();
             if (e.target.value.startsWith('#') || e.target.value.includes("rgb")) {

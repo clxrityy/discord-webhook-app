@@ -5,12 +5,29 @@ import { MdEventRepeat } from "react-icons/md";
 import { GrConnect } from "react-icons/gr";
 import Button from "../ui/Button";
 import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {
     webhook: WebhookData;
+    userId: string;
 } & ComponentProps<"div">;
 
-const WebhookWrapper = ({ webhook, ...props }: Props) => {
+const WebhookWrapper = ({ webhook, userId, ...props }: Props) => {
+
+    const router = useRouter();
+
+    const deleteWebhook = async () => {
+        if (userId) {
+            try {
+                await axios.post("/api/webhook/delete", userId).finally(() => {
+                    router.push("/webhooks");
+                })
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    }
 
     return (
         <div
@@ -49,7 +66,7 @@ const WebhookWrapper = ({ webhook, ...props }: Props) => {
                     <Button danger>
                         Edit
                     </Button>
-                    <Button solid danger>
+                    <Button solid danger onClick={async () => await deleteWebhook()}>
                         Delete
                     </Button>
                 </div>

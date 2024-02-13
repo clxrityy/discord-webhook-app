@@ -161,12 +161,18 @@ export default function Page() {
 
     return (
         <div className="w-3/4 h-full">
-            <div className="w-full flex items-center justify-center py-4">
-                <h1 className="text-center text-2xl">
+            <div className="w-full flex items-center justify-center py-4 flex-col gap-2">
+                <h1 className="text-center text-4xl 2xl:text-5xl font-bold">
                     Send an embed
                 </h1>
+                <p className="text-sm text-gray-500 max-w-md text-center">
+                    <span className="font-bold">
+                        WARNING: 
+                    </span>
+                    <br />options with multiple paramaters (author, fields, & footer) are not functional yet
+                </p>
             </div>
-            <EmbedForm inputs={embedFormInputs} actions={actions} buttonTxt="Send" submitInfo={async () => await handleSubmit()} />
+            <EmbedForm inputs={embedFormInputs} actions={actions} buttontxt="Send" submitInfo={async () => await handleSubmit()} />
         </div>
     );
 }

@@ -4,17 +4,26 @@ import WebhookWrapper from "@/components/wrappers/Webhook";
 import GetUser from "@/hooks/GetUser";
 import GetWebhook from "@/hooks/GetWebhook";
 import { WebhookData } from "@/util/types";
+import { useEffect, useState } from "react";
 
 
 export default function Page({ params }: { params: { id: string } }) {
 
     const user = GetUser();
 
-    let webhook: WebhookData | undefined;
+    const [webhook, setWebhook] = useState<WebhookData>();
 
-    if (user) {
-        webhook = GetWebhook(user.id);
-    }
+    useEffect(() => {
+
+        const fetchWebhook = async () => {
+            if (user) {
+                setWebhook(await GetWebhook(user.id));
+            }
+        }
+
+        fetchWebhook();
+
+    }, [user, webhook]);
 
     return (
         <div className="h-full w-full px-5 py-10 flex items-center flex-col">
@@ -34,7 +43,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </div>
 
             {
-                webhook && <WebhookWrapper webhook={webhook} />
+                webhook && user && <WebhookWrapper userId={user.id} webhook={webhook} />
             }
         </div>
     );

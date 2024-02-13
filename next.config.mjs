@@ -12,6 +12,9 @@ const nextConfig = {
         FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDERER_ID
     },
     compress: true,
+    images: {
+        domains: ["i.gyazo.com"]
+    }
 };
 
 export default nextConfig;

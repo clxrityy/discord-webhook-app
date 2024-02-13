@@ -1,22 +1,33 @@
 "use client";
 
 import CreateBlock from "@/components/misc/CreateBlock";
+import Loading from "@/components/ui/Loading";
 import GetUser from "@/hooks/GetUser";
 import GetWebhook from "@/hooks/GetWebhook";
 import { WebhookData } from "@/util/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 
 export default function Page() {
 
-    let webhook: WebhookData | undefined;
+    const [webhook, setWebhook] = useState<WebhookData>();
 
     const user = GetUser();
     const router = useRouter();
 
-    if (user) {
-        webhook = GetWebhook(user.id);
-    }
+    useEffect(() => {
+
+        const fetchWebhook = async () => {
+            if (user) {
+                setWebhook(await GetWebhook(user.id));
+            }
+        }
+
+        fetchWebhook();
+
+    }, [user, webhook]);
 
 
     if (!webhook)
@@ -35,13 +46,22 @@ export default function Page() {
             </div>
         )
 
-    return (
-        <div className="w-full min-h-screen px-10 py-4 flex flex-col items-center">
-            You have a webhook set up!
-            
-            Here it is: <Link href={`/webhooks/${webhook.uuid}`}>
-                WEBHOOK {webhook.uuid}
-            </Link>
-        </div>
-    );
+    if (user && webhook)
+        return (
+            <div className="w-full min-h-screen px-10 py-32 flex flex-col items-center gap-10">
+                <div>
+                    <h1 className="text-3xl md:text-4xl text-center">
+                        <span className="font-semibold tracking-wide">{user.username}</span>&#39;s webhook
+                    </h1>
+                </div>
+                <div className="border border-primary rounded-md py-4 px-10 flex flex-row items-center gap-4 transition-all hover:scale-110 shadow-inner shadow-primary">
+                    <Link className="text-xl hover:underline underline-offset-4 text-gray-200 tracking-widest" href={`/webhooks/${webhook.uuid}`}>
+                        {webhook.uuid}
+                    </Link>
+                </div>
+            </div>
+        );
+    return <div className="h-full w-full flex justify-center items-center">
+        <Loading size={200} />
+    </div>
 }
