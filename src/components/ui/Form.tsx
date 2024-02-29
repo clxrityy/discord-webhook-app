@@ -9,10 +9,10 @@ import { IoMdAddCircle } from "react-icons/io";
 */
 
 type FormProps = {
-    buttontxt: string;
+    buttontxt?: string;
     inputs: FormInput[];
     actions: Action[];
-    submitInfo: () => Promise<void>;
+    submitInfo?: () => Promise<void>;
 } & ComponentProps<"form">;
 
 
@@ -20,10 +20,10 @@ const Form = ({ buttontxt, inputs, actions, submitInfo, ...props }: FormProps) =
 
     return <form
         {...props}
-        className="flex flex-col items-baseline 2xl:items-center rounded-lg px-8 py-5 md:w-3/4 lg:w-2/3 2xl:w-2/5 h-auto mx-auto mt-5 justify-start bg-gray-500/25 border border-white/50"
+        className="flex flex-col items-baseline 2xl:items-center rounded-lg px-8 py-5 md:w-3/4 lg:w-2/3 2xl:w-2/5 h-auto mx-auto mt-5 justify-start border border-white/50"
         onSubmit={(e) => {
             e.preventDefault();
-            submitInfo();
+            submitInfo && submitInfo();
         }}
     >
 
@@ -51,9 +51,11 @@ const Form = ({ buttontxt, inputs, actions, submitInfo, ...props }: FormProps) =
                 </div>
             ))}
         </div>
-        <Button type="submit">
+        {buttontxt &&
+            <Button type="submit">
             {buttontxt}
-        </Button>
+            
+        </Button>}
     </form>;
 }
 
@@ -73,7 +75,7 @@ export const EmbedForm = ({ buttontxt, inputs, actions, submitInfo, ...props }: 
         {...props}
         onSubmit={(e) => {
             e.preventDefault();
-            submitInfo();
+            submitInfo && submitInfo();
         }}
         className="w-full flex items-center justify-center py-5 mx-auto flex-col"
     >
@@ -144,6 +146,5 @@ export const EmbedForm = ({ buttontxt, inputs, actions, submitInfo, ...props }: 
         </Button>
     </form>
 }
-
 
 export default Form;

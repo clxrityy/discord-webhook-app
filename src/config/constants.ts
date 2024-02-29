@@ -274,6 +274,26 @@ export const embedFormInputs: EmbedFormInput<EmbedOptions>[] = [
 
 ]
 
+
+export const webhookUserFormInputs: FormInput[] = [
+    {
+        label: "Username",
+        onChange(e, action) {
+            e.preventDefault();
+            action(e.target.value);
+        },
+        type: "text"
+    },
+    {
+        label: "Avatar",
+        onChange(e, action) {
+            e.preventDefault();
+            action(e.target.value);
+        },
+        type: "text"
+    }
+]
+
 export const displayOptions = {
     icons: {
         logo: LuWebhook,

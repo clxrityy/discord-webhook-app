@@ -20,11 +20,13 @@ export type Action = {
     dispatch: Dispatch<string | any>;
 }
 
+// forms
+
 export type FormInput = {
     label: string;
     placeholder?: string;
     type: string;
-    onChange?: (e: ChangeEvent<HTMLInputElement>, action: Dispatch<SetStateAction<string | any>>) => void;
+    onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, action: Dispatch<SetStateAction<string | any>>) => void;
     required?: boolean;
 }
 

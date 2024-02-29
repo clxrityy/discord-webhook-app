@@ -2,8 +2,8 @@
 import GetUser from "@/hooks/GetUser";
 import GetWebhook from "@/hooks/GetWebhook";
 import { Action, EmbedOptions, WebhookData, WebhookSendEmbedOptions } from "@/util/types";
-import { EmbedForm } from "@/components/ui/Form";
-import { embedFormInputs } from "@/config/constants";
+import Form, { EmbedForm } from "@/components/ui/Form";
+import { webhookUserFormInputs, embedFormInputs } from "@/config/constants";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -31,6 +31,10 @@ export default function Page() {
     /* 
         END EMBED VALUES
     */
+    
+    const [webhookUsername, setWebhookUsername] = useState<string>();
+    const [webhookAvatar, setWebhookAvatar] = useState<string>();
+    
     const [webhookData, setWebhookData] = useState<WebhookData>();
 
     const user = GetUser();
@@ -46,7 +50,7 @@ export default function Page() {
     /* 
         EMBED ACTIONS
     */
-    const actions: Action[] = [
+    const embedActions: Action[] = [
         {
             name: "Title",
             dispatch: setTitle
@@ -115,6 +119,19 @@ export default function Page() {
     /*
         END ENBED ACTIONS
     */
+    
+    // webhook user actions
+
+    const webhookUserActions: Action[] = [
+        {
+            name: "Username",
+            dispatch: setWebhookUsername
+        },
+        {
+            name: "Avatar",
+            dispatch: setWebhookAvatar
+        }
+    ]
 
     const handleSubmit = async () => {
 
@@ -140,8 +157,14 @@ export default function Page() {
 
             const data: WebhookSendEmbedOptions = {
                 webhookData: webhookData!,
-                embedOptions: embedOptions  
+                embedOptions: embedOptions!,
+                options: {
+                    username: webhookUsername!,
+                    avatarURL: webhookAvatar!
+                }
             }
+
+            console.log(webhookAvatar)
 
             try {
                 await axios.post(`/api/webhook/embed`, data
@@ -167,12 +190,17 @@ export default function Page() {
                 </h1>
                 <p className="text-sm text-gray-500 max-w-md text-center">
                     <span className="font-bold">
-                        WARNING: 
+                        WARNING:
                     </span>
                     <br />options with multiple paramaters (author, fields, & footer) are not functional yet
                 </p>
             </div>
-            <EmbedForm inputs={embedFormInputs} actions={actions} buttontxt="Send" submitInfo={async () => await handleSubmit()} />
+            <div className="flex flex-col items-center justify-center w-full gap-10">
+                <div className="mx-auto w-full">
+                    <Form inputs={webhookUserFormInputs} actions={webhookUserActions} />
+                </div>
+                <EmbedForm inputs={embedFormInputs} actions={embedActions} buttontxt="Send" submitInfo={async () => await handleSubmit()} />
+            </div>
         </div>
     );
 }

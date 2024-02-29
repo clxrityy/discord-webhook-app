@@ -34,6 +34,10 @@ const sendEmbed = async ({ embedOptions, webhookData, options }: WebhookSendEmbe
     await wh.send(
         {
             embeds: [em],
+            options: {
+                username: options?.username,
+                avatarURL: options?.avatarURL,
+            }
         });
 }
 

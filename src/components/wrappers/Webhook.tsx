@@ -29,6 +29,10 @@ const WebhookWrapper = ({ webhook, userId, ...props }: Props) => {
         }
     }
 
+    const editWebhook = () => {
+        router.push(`/webhooks/${webhook.uuid}/edit`)
+    }
+
     return (
         <div
             {...props}
@@ -63,7 +67,7 @@ const WebhookWrapper = ({ webhook, userId, ...props }: Props) => {
                 </div>
 
                 <div className="flex flex-row items-center justify-center gap-5 mx-10 lg:mx-20 xl:mx-30 lg:gap-10">
-                    <Button danger>
+                    <Button danger onClick={editWebhook}>
                         Edit
                     </Button>
                     <Button solid danger onClick={async () => await deleteWebhook()}>

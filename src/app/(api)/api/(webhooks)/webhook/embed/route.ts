@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     const data: WebhookSendEmbedOptions = await req.json();
 
     try {
-        await sendEmbed(data).then((res) => console.log(res)).catch((err) => console.log(err));
+        await sendEmbed(data).catch((err) => console.log(err))
 
     } catch (err) {
         console.log(err);

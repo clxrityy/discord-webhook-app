@@ -76,11 +76,11 @@ export default function Page() {
                 <p className="text-base lg:text-lg">
                     See the <Link className="text-primary font-semibold hover:uderline underline-offset-2" href="/docs">
                         documentation
-                    </Link> for more information abouts etting up a Discord webhook.
+                    </Link> for more information about setting up a Discord webhook.
                 </p>
             </div>
 
-            <Form buttonTxt="Add" inputs={webhookFormInputs} actions={actions} submitInfo={async () => await submitInfo()}
+            <Form buttontxt="Add" inputs={webhookFormInputs} actions={actions} submitInfo={async () => await submitInfo()}
             />
         </div>
     )
