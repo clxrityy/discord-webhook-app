@@ -41,11 +41,11 @@ devDependencies:
     specifier: ^21.1.6
     version: 21.1.6
   '@types/node':
-    specifier: ^20.11.17
-    version: 20.11.17
+    specifier: ^20.11.24
+    version: 20.11.24
   '@types/react':
-    specifier: ^18
-    version: 18.2.55
+    specifier: ^18.2.61
+    version: 18.2.61
   '@types/react-dom':
     specifier: ^18.2.19
     version: 18.2.19
@@ -59,11 +59,11 @@ devDependencies:
     specifier: ^14.14.1
     version: 14.14.1
   eslint:
-    specifier: ^8
-    version: 8.56.0
+    specifier: ^8.57.0
+    version: 8.57.0
   eslint-config-next:
     specifier: 14.1.0
-    version: 14.1.0(eslint@8.56.0)(typescript@5.3.3)
+    version: 14.1.0(eslint@8.57.0)(typescript@5.3.3)
   postcss:
     specifier: ^8.4.35
     version: 8.4.35
